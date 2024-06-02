@@ -9,6 +9,11 @@ set $down j
 set $up k
 set $right l
 
+
+set $screenrecorder `bash $HOME/.config/sway/scripts/toggle-screen-recorder.sh`
+bindsym --to-code $mod+Shift+R exec $screenrecorder
+
+
 # lock screen
 bindsym Mod4+l exec swaylock -l -f -e -F -i "/usr/share/backgrounds/sway/universe.jpg" -s stretch
 
@@ -21,7 +26,7 @@ set $term alacritty
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu wofi --show drun -I
+set $menu wofi --show drun -I | swaymsg
 
 # Wob configuration
 set $WOBSOCK $XDG_RUNTIME_DIR/wob.sock
@@ -215,7 +220,7 @@ mode "resize" {
 
     # Ditto, with arrow keys
     # bindsym Left resize shrink width 10px
-    # bindsym Down resize grow height 10px
+
     # bindsym Up resize shrink height 10px
     # bindsym Right resize grow width 10px
 
@@ -227,11 +232,12 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 mode "screenshot" {
-    bindsym Mod4+p exec grimshot copy active
-    bindsym $mod+s+a exec grimshot save area
+    bindsym Mod4+s+v exec grimshot save active - | swappy -f -
+    bindsym $mod+c+v exec grimshot copy active
+    bindsym $mod+s+a exec grimshot save area - | swappy -f -
     bindsym $mod+c+a exec grimshot copy area
-    # bindsym Mod4+Mod1+p exec grimshot save output
-    bindsym $mod+s+w  exec grimshot save window
+    # bindsym Mod4+Mod1+p exec grimshot save output - | swappy -f -
+    bindsym Mod4+s+w  exec grimshot save window - | swappy -f -
     bindsym $mod+c+w exec grimshot copy window
 
     # Return to default mode
@@ -245,9 +251,7 @@ bindsym Print mode "screenshot"
 #
 # Status Bar:
 #
-bar {
-    swaybar_command waybar
-}
+bar swaybar_command waybar
 
 include /etc/sway/config.d/*
 include ./config.d/*
