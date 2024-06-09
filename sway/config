@@ -1,6 +1,3 @@
-#
-# Variables:
-#
 # Logo key. Use Mod1 for Alt.
 set $mod Mod1
 # Home row direction keys, like vim
@@ -10,6 +7,7 @@ set $up k
 set $right l
 
 
+# wf-recorder
 set $screenrecorder `bash $HOME/.config/sway/scripts/toggle-screen-recorder.sh`
 bindsym --to-code $mod+Shift+R exec $screenrecorder
 
@@ -19,6 +17,9 @@ bindsym Mod4+l exec swaylock -l -f -e -F -i "/usr/share/backgrounds/sway/univers
 
 # nyxt browser
 bindsym $mod+Shift+b exec nyxt
+
+# hyprpicker
+bindsym $mod+p exec hyprpicker -a
 
 # Your preferred terminal emulator
 set $term alacritty
@@ -36,9 +37,7 @@ exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
 gaps inner 2
 gaps outer 2
 
-#
 # Colors
-#
 client.background # 434c5e n/a
 client.focused #434c5e #434c5e #eceff4 #434c5e #434c5e
 client.focused_inactive #3b4252 #3b4252 #eceff4 #3b4252 #3b4252
@@ -127,9 +126,7 @@ bindsym $mod+Shift+$right move right
 # bindsym $mod+Shift+Down move down
 # bindsym $mod+Shift+Up move up
 # bindsym $mod+Shift+Right move right
-#
-# Workspaces:
-#
+
 # Switch to workspace
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
@@ -141,6 +138,7 @@ bindsym $mod+7 workspace number 7
 bindsym $mod+8 workspace number 8
 bindsym $mod+9 workspace number 9
 bindsym $mod+0 workspace number 10
+
 # Move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number 1
 bindsym $mod+Shift+2 move container to workspace number 2
@@ -152,9 +150,7 @@ bindsym $mod+Shift+7 move container to workspace number 7
 bindsym $mod+Shift+8 move container to workspace number 8
 bindsym $mod+Shift+9 move container to workspace number 9
 bindsym $mod+Shift+0 move container to workspace number 10
-# Note: workspaces can have any name you want, not just numbers.
-# We just use 1-10 as the default.
-#
+
 # Layout stuff:
 #
 # You can "split" the current object of your focus with
@@ -170,7 +166,6 @@ bindsym $mod+e layout toggle split
 
 # Make the current focus fullscreen
 bindsym F11 fullscreen
-bindsym $mod+f fullscreen
 
 # Toggle the current focus between tiling and floating mode
 bindsym $mod+Shift+space floating toggle
@@ -193,7 +188,6 @@ bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ 
 bindsym --locked XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 
-#
 # Scratchpad:
 #
 # Sway has a "scratchpad", which is a bag of holding for windows.
@@ -205,31 +199,26 @@ bindsym $mod+Shift+minus move scratchpad
 # Show the next scratchpad window or hide the focused scratchpad window.
 # If there are multiple scratchpad windows, this command cycles through them.
 bindsym $mod+minus scratchpad show
-#
-# Resizing containers:
-#
+
+# Resizing containers
+bindsym $mod+r mode "resize"
+
 mode "resize" {
     # left will shrink the containers width
-    # right will grow the containers width
-    # up will shrink the containers height
-    # down will grow the containers height
     bindsym $left resize shrink width 10px
-    bindsym $down resize grow height 10px
-    bindsym $up resize shrink height 10px
+    # right will grow the containers width
     bindsym $right resize grow width 10px
-
-    # Ditto, with arrow keys
-    # bindsym Left resize shrink width 10px
-
-    # bindsym Up resize shrink height 10px
-    # bindsym Right resize grow width 10px
+    # up will shrink the containers height
+    bindsym $up resize shrink height 10px
+    # down will grow the containers height
+    bindsym $down resize grow height 10px
 
     # Return to default mode
-    bindsym Return mode "default"
     bindsym Escape mode "default"
 }
 
-bindsym $mod+r mode "resize"
+# screenshot
+bindsym Print mode "screenshot"
 
 mode "screenshot" {
     bindsym Mod4+s+v exec grimshot save active - | swappy -f -
@@ -241,16 +230,10 @@ mode "screenshot" {
     bindsym $mod+c+w exec grimshot copy window
 
     # Return to default mode
-    bindsym Return mode "default"
     bindsym Escape mode "default"
 }
 
-bindsym Print mode "screenshot"
-
-
-#
 # Status Bar:
-#
 bar swaybar_command waybar
 
 include /etc/sway/config.d/*
