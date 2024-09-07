@@ -63,6 +63,10 @@ output * bg /usr/share/backgrounds/sway/universe.jpg stretch
 # resumed. It will also lock your screen before your computer goes to sleep.
 
 ### Input configuration
+input "type:keyboard" {
+    xkb_layout us(euro)
+}
+
 input "type:mouse" {
     accel_profile adaptive
     pointer_accel 1.0
